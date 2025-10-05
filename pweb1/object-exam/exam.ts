@@ -4,15 +4,15 @@ export class Exam {
   #answers: Answer[] = []
 
   constructor(answer: Answer, weight: Weight) {
-    if ((answer.answers.length !== weight.weights.length) || (answer.studentName !== undefined))
+    if ((answer.answers.length !== weight.weights.length) || (answer.name !== undefined))
       throw new Error("Invalid arguments to create exam")
 
     this.#answer = answer
     this.#weight = weight 
   }
 
-  add(answer: Required<Answer>) {
-    if (answer.answers.length !== this.#answer.answers.length)
+  add(answer: Answer) {
+    if (answer.answers.length !== this.#answer.answers.length || answer.name)
       throw new Error("Invalid answer (too many/few questions)")
 
     this.#answers.push(answer as Answer)
@@ -52,16 +52,16 @@ export class Exam {
 
 
 export class Answer {
-  #studentName: string | undefined
+  #name: string
   #answers: string[]
 
-  constructor(answers: string[], studentName?: string) {
+  constructor(answers: string[], name = "Professor") {
     this.#answers = answers
-    this.#studentName = studentName 
+    this.#name = name 
   }
 
-  get studentName() {
-    return this.#studentName
+  get name() {
+    return this.#name
   }
 
   get answers() {
