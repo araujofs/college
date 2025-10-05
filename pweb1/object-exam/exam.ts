@@ -2,32 +2,41 @@ export class Exam {
   #weight: Weight
   #answer: Answer
   #answers: Answer[] = []
+  #grades: number[] = []
 
   constructor(answer: Answer, weight: Weight) {
-    if ((answer.answers.length !== weight.weights.length) || (answer.name !== undefined))
-      throw new Error("Invalid arguments to create exam")
+    console.log(answer.name)
+    if ((answer.answers.length !== weight.weights.length))
+      throw new Error("Invalid arguments to create exam (weights and answers must have the same length")
+
+    if (answer.name)
+      throw new Error('Invalid answer (exam answer key must have empty name)')
 
     this.#answer = answer
     this.#weight = weight 
   }
 
   add(answer: Answer) {
-    if (answer.answers.length !== this.#answer.answers.length || answer.name)
+    if (answer.answers.length !== this.#answer.answers.length)
       throw new Error("Invalid answer (too many/few questions)")
 
-    this.#answers.push(answer as Answer)
+    if (!answer.name)
+      throw new Error('Invalid answer (answer must have a name)')
+
+    this.#answers.push(answer)
+    this.#grades.push(this.#gradeExam(answer))
   }
 
   avg() {
-    return this.#answers.reduce((acc, curr) => (acc + this.#gradeExam(curr)), 0) / this.#answers.length
+    return this.#grades.reduce((acc, curr) => (acc + curr), 0) / this.#answers.length
   }
 
   min() {
-    return this.#answers.map((ans) => this.#gradeExam(ans)).sort((a, b) => b - a).slice(0, 3)
+    return this.#grades.sort((a, b) => b - a).slice(0, 3)
   }
 
   max() {
-    return this.#answers.map((ans) => this.#gradeExam(ans)).sort((a, b) => a - b).slice(0, 3)
+    return this.#grades.sort((a, b) => a - b).slice(0, 3)
   }
 
   lt(limit: number) {
@@ -52,10 +61,10 @@ export class Exam {
 
 
 export class Answer {
-  #name: string
+  #name: string 
   #answers: string[]
 
-  constructor(answers: string[], name = "Professor") {
+  constructor(answers: string[], name = '') {
     this.#answers = answers
     this.#name = name 
   }

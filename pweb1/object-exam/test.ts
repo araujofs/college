@@ -64,7 +64,7 @@ console.log('📝 Estudantes que precisam de recuperação (nota < 6.0):')
 estudantesBaixaNota.forEach((resposta, index) => {
   console.log(
     `   ${index + 1}. ${
-      resposta.studentName || 'Anônimo'
+      resposta.name || 'Anônimo'
     } - Respostas: [${resposta.answers.join(', ')}]`
   )
 })
@@ -75,7 +75,7 @@ console.log('\n🌟 Estudantes com excelente desempenho (nota > 7.0):')
 estudantesAltaNota.forEach((resposta, index) => {
   console.log(
     `   ${index + 1}. ${
-      resposta.studentName || 'Anônimo'
+      resposta.name || 'Anônimo'
     } - Respostas: [${resposta.answers.join(', ')}]`
   )
 })
