@@ -1,5 +1,6 @@
-import { Component, input } from '@angular/core';
-import { TaskData } from '../../models/task-data.model';
+import { Component, inject, input } from '@angular/core'
+import { TaskData } from '../../models/task-data.model'
+import { TaskModal } from '../../services/task-modal/task-modal'
 
 @Component({
   selector: 'task',

@@ -1,0 +1,38 @@
+<div class="fixed inset-0 z-50 bg-[#807e7e88] flex justify-center items-center" (click)="modal.closeModal()">
+  <div class="flex flex-col gap-4 bg-white w-1/2 p-6 rounded-lg" (click)="$event.stopPropagation()">
+    <div class="flex justify-between">
+      <h3 class="text-lg font-semibold">Nova tarefa</h3>
+      <button class="cursor-pointer select-none" (click)="modal.closeModal()">✕</button>
+    </div>
+
+    <form class="grid grid-cols-3 gap-y-6 gap-x-2">
+      <div>
+        <label for="title">Título</label>
+        <input id="title" type="text" />
+      </div>
+
+      <div>
+        <label for="dueDate">Data término</label>
+        <input type="date" id="dueDate" />
+      </div>
+
+      <div>
+        <label for="level">Nível</label>
+        <select name="" id="level" class="">
+          <option value="low">Baixo</option>
+          <option value="medium">Médio</option>
+          <option value="high">Alto</option>
+        </select>
+      </div>
+
+      <div class="col-span-3">
+        <label for="description">Descrição (breve)</label>
+        <textarea name="" id="description"></textarea>
+      </div>
+
+      <div class="col-span-3 flex justify-end">
+        <button class="rounded p-2 bg-indigo-500 text-white font-semibold">Salvar tarefa</button>
+      </div>
+    </form>
+  </div>
+</div>

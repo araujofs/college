@@ -1,5 +1,5 @@
 import { effect, Injectable, signal } from '@angular/core'
-import { TaskData, TaskStatus } from '../models/task-data.model'
+import { TaskData, TaskStatus } from '../../models/task-data.model'
 
 @Injectable({
   providedIn: 'root',

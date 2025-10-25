@@ -1,12 +1,21 @@
 <div class="flex flex-wrap gap-6">
   <div class="w-full flex justify-between items-center">
     <p class="text-slate-600">Adicione novas tarefas pelo botão <strong>+</strong>.</p>
-    <button class="rounded-4xl bg-violet-500 size-12 text-white text-3xl">+</button>
+    <button
+      class="rounded-4xl bg-violet-500 size-12 text-white text-3xl cursor-pointer"
+      (click)="modal.openModal()"
+    >
+      +
+    </button>
   </div>
 
-  <div class="w-full grid grid-cols-3 gap-2 max-sm:flex max-sm:flex-col">
+  <div class="w-full grid grid-cols-3 gap-2 max-md:flex max-md:flex-col">
     @for (column of columns; track column) {
       <task-column title="{{ column }}" />
     }
   </div>
+
+  @if (modal.modalIsOpen()) {
+    <task-form-modal />
+  }
 </div>
