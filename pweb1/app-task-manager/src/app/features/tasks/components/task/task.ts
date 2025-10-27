@@ -1,4 +1,4 @@
-import { Component, computed, inject, input } from '@angular/core'
+import { Component, computed, inject, input, signal } from '@angular/core'
 import { TaskData } from '../../models/task-data.model'
 import { Data } from '../../services/data/data'
 import { TaskModal } from '../../services/task-modal/task-modal'
@@ -12,7 +12,8 @@ import { TaskModal } from '../../services/task-modal/task-modal'
 export class Task {
   tasksService = inject(Data)
   modalService = inject(TaskModal)
-
+  
+  dragging = signal(false)
   data = input.required<TaskData>()
   level = computed(
     () =>
@@ -37,4 +38,14 @@ export class Task {
     if (diff <= 0) return 'bg-violet-500'
     return 'bg-zinc-400'
   })
+
+  onDragStart(e: DragEvent) {
+    e.dataTransfer!.setData('id', String(this.data().id))
+    e.dataTransfer!.setData('status', this.data().status)
+    this.dragging.set(true)
+  }
+
+  onDragEnd() {
+    this.dragging.set(false)
+  }
 }

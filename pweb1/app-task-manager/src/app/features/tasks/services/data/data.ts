@@ -6,13 +6,13 @@ import { TaskData, TaskStatus } from '../../models/task-data.model'
 })
 export class Data {
   tasks = signal<{
-    'tasks-todo': TaskData[]
-    'tasks-doing': TaskData[]
-    'tasks-done': TaskData[]
+    'todo': TaskData[]
+    'doing': TaskData[]
+    'done': TaskData[]
   }>({
-    'tasks-todo': [],
-    'tasks-doing': [],
-    'tasks-done': [],
+    'todo': [],
+    'doing': [],
+    'done': [],
   })
 
   constructor() {
@@ -31,19 +31,19 @@ export class Data {
     const taskWithId = {...task, id: Date.now()}
 
     this.tasks.update((oldTasks) => {
-      oldTasks['tasks-todo'].push(taskWithId)
+      oldTasks['todo'].push(taskWithId)
 
       return {...oldTasks}
     })
   }
 
   getTaskByStatus(status: TaskStatus) {
-    return this.tasks()[`tasks-${status}`]
+    return this.tasks()[status]
   }
 
   deleteTaskById(id: number, status: TaskStatus) {
     this.tasks.update(oldTasks => {
-      oldTasks[`tasks-${status}`] = oldTasks[`tasks-${status}`].filter(task => task.id !== id)
+      oldTasks[status] = oldTasks[status].filter(task => task.id !== id)
 
       return {...oldTasks}
     })
@@ -51,10 +51,24 @@ export class Data {
 
   editTask(task: TaskData) {
     this.tasks.update(oldTasks => {
-      const oldIndex = oldTasks[`tasks-${task.status}`].findIndex(oldTask => oldTask.id === task.id)
+      const oldIndex = oldTasks[task.status].findIndex(oldTask => oldTask.id === task.id)
 
-      oldTasks[`tasks-${task.status}`][oldIndex] = { ...oldTasks[`tasks-${task.status}`][oldIndex], ...task }
+      oldTasks[task.status][oldIndex] = { ...oldTasks[task.status][oldIndex], ...task }
       
+      return {...oldTasks}
+    })
+  }
+
+  changeTaskStatus(id: number, currentStatus: TaskStatus, newStatus: TaskStatus) {
+    if (currentStatus === newStatus) return
+
+    this.tasks.update(oldTasks => {
+      const taskIndex = oldTasks[currentStatus].findIndex(task => task.id === id)
+      const oldTask = oldTasks[currentStatus].splice(taskIndex, 1)[0]
+
+      oldTask.status = newStatus
+      oldTasks[newStatus].push(oldTask)
+
       return {...oldTasks}
     })
   }
