@@ -27,11 +27,35 @@ export class Data {
     })
   }
 
-  createTask(task: TaskData) {
-    this.tasks.update((oldTasks) => {
-      oldTasks['tasks-todo'].push(task)
+  createTask(task: Omit<TaskData, "id">) {
+    const taskWithId = {...task, id: Date.now()}
 
-      return oldTasks
+    this.tasks.update((oldTasks) => {
+      oldTasks['tasks-todo'].push(taskWithId)
+
+      return {...oldTasks}
+    })
+  }
+
+  getTaskByStatus(status: TaskStatus) {
+    return this.tasks()[`tasks-${status}`]
+  }
+
+  deleteTaskById(id: number, status: TaskStatus) {
+    this.tasks.update(oldTasks => {
+      oldTasks[`tasks-${status}`] = oldTasks[`tasks-${status}`].filter(task => task.id !== id)
+
+      return {...oldTasks}
+    })
+  }
+
+  editTask(task: TaskData) {
+    this.tasks.update(oldTasks => {
+      const oldIndex = oldTasks[`tasks-${task.status}`].findIndex(oldTask => oldTask.id === task.id)
+
+      oldTasks[`tasks-${task.status}`][oldIndex] = { ...oldTasks[`tasks-${task.status}`][oldIndex], ...task }
+      
+      return {...oldTasks}
     })
   }
 }

@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core'
-import { TaskColumn } from './components/task-column/task-column'
+import { ColumnData, TaskColumn } from './components/task-column/task-column'
 import { TaskFormModal } from './components/task-form-modal/task-form-modal'
 import { TaskModal } from './services/task-modal/task-modal'
 
@@ -11,5 +11,18 @@ import { TaskModal } from './services/task-modal/task-modal'
 })
 export class Tasks {
   protected modal = inject(TaskModal)
-  columns = ['Para fazer', 'Em andamento', 'Concluídas']
+  columns: ColumnData[] = [
+    {
+      title: 'Para fazer',
+      status: 'todo',
+    },
+    {
+      title: 'Em andamento',
+      status: 'doing'
+    },
+    {
+      title: 'Concluídas',
+      status: 'done'
+    },
+  ]
 }
