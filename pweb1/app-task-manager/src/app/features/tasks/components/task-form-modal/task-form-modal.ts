@@ -17,16 +17,21 @@ export class TaskFormModal {
 
   taskForm = this.formBuilder.nonNullable.group({
     title: [this.modal.modalEditTask()?.title ?? '', Validators.required],
-    dueDate: [this.modal.modalEditTask()?.dueDate ?? '', Validators.required],
+    dueDate: [this.modal.modalEditTask()?.dueDate ? this.formatDate(this.modal.modalEditTask()!.dueDate) : '', Validators.required],
     level: [this.modal.modalEditTask()?.level ?? ('low' as TaskLevel), Validators.required],
     description: new FormControl(this.modal.modalEditTask()?.description ?? ''),
   })
+
+  formatDate(date: string) {
+    return date.replace(/\//g, '-')
+  }
 
   onSubmit() {
     if (!this.taskForm.valid)
       return
 
     const formValue = this.taskForm.getRawValue()
+    console.log(formValue.dueDate) 
     const oldTask = this.modal.modalEditTask()
 
     if (oldTask) {

@@ -2,7 +2,7 @@
   <h2 class="font-bold">{{ column()!.title }}</h2>
 
   <ul class="list-none bg-white flex flex-col gap-4 p-4 rounded min-h-40" (dragover)="$event.preventDefault()" (drop)="onDrop($event)">
-    @for (task of tasks(); track task) {
+    @for (task of tasks(); track task.id) {
       <task [data]="task"/>
     }
   </ul>
