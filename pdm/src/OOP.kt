@@ -1,7 +1,31 @@
 package org.example
 
+import java.time.LocalDate
 import kotlin.math.PI
 import kotlin.math.pow
+
+class Book(var title: String, var author: String, var publishDate: LocalDate) {
+  init {
+    require(publishDate.year == 2026) {"Ano inválido!"}
+  }
+
+  constructor(title: String, publishDate: LocalDate): this(title, "Desconhecido", publishDate)
+
+  fun toBibliographicSheet(): String {
+    return """
+      Title: $title,
+      Author: $author,
+      Publish Date: $publishDate
+      
+    """.trimIndent()
+  }
+}
+
+fun testBook() {
+  val book = Book("Pedro", LocalDate.now())
+
+  println(book.toBibliographicSheet())
+}
 
 class BankAccount(val bearer: String, var balance: Double) {
   var number: Int
