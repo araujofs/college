@@ -1,11 +1,17 @@
-<html>
+<html xmlns:th="www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <title>Cadastro de Correntistas</title>
   </head>
 
   <body>
-    <h1>Cadastro de Correntistas</h1>
+    <h1>Correntistas Cadastrados</h1>
+    <hr />
+
+    <form th:action="@{/correntistas/form}" method="GET">
+      <button class="btn btn-primary" type="submit">Novo</button>
+    </form>
+    <br />
 
     <div th:text="${mensagem}" style="color: red"></div>
 
@@ -19,11 +25,15 @@
           <th>Senha</th>
         </tr>
       </thead>
-
       <tbody>
         <tr th:each="correntista : ${correntistas}">
           <td>[[${correntista.id}]]</td>
-          <td th:text="${correntista.nome}"></td>
+          <td>
+            <a
+              th:href="@{/correntistas/{id}(id=${correntista.id})}"
+              th:text="${correntista.nome}"
+            ></a>
+          </td>
           <td th:text="${correntista.email}"></td>
           <td th:text="${correntista.admin}"></td>
           <td
